@@ -94,6 +94,21 @@ public class TrRegionMap {
         }
     }
 
+    @Nullable
+    public TrRegion createRegion(@NonNull String regionId)
+    {
+//        if (!isLegalId(regionId)) {
+//            throw new IllegalArgumentException("Illegal configuration keys.");
+//            return null;
+//        }
+        ConfigurationSection configSection = this.configRegions.createSection(regionId);
+        TrRegion region = new TrRegion(configSection);
+        this.regionKeys.add(regionId);
+        this.regionList.put(regionId, region);
+        return region;
+    }
+
+    @Nullable
     public TrRegion getRegion(@NonNull String regionId) { return this.regionList.get(regionId); }
 
     @Nullable
