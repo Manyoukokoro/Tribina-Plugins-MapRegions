@@ -6,4 +6,4 @@ prefix: TribinaMR
 load: STARTUP
 loadbefore: [ Tribina ]
 authors: [ Tarcadia ]
-description: Tribina Plugin for map region managment.
+description: '${project.description}'
