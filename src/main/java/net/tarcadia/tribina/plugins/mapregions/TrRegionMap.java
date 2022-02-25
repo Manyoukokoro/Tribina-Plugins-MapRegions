@@ -53,7 +53,7 @@ public class TrRegionMap {
             Set<Pair<Integer, Integer>> posSet = new HashSet<>(); //loadFromBmp(this.pathMaps + regionId + ".bmp");
             for (Pair<Integer, Integer> pos : posSet)
             {
-                if (pos.x() < this.x_length && pos.y() < this.z_length) {
+                if (pos.x() > 0 && pos.y() > 0 && pos.x() < this.x_length && pos.y() < this.z_length) {
                     if (this.regionMap[pos.x()][pos.y()] == null) {
                         TrRegion region = this.regionList.get(regionId);
                         this.regionMap[pos.x()][pos.y()] = region;
