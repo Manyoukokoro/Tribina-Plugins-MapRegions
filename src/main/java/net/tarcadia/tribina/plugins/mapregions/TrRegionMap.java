@@ -23,13 +23,13 @@ public class TrRegionMap {
             this.config = config;
         }
 
+        public ConfigurationSection getConfig() {
+            return this.config;
+        }
+
         public boolean setValue(@NonNull String key, Object obj) {
             this.config.set(key, obj);
             return true;
-        }
-
-        public ConfigurationSection getConfig() {
-            return this.config;
         }
 
         public Object getValue(@NonNull String key) {
