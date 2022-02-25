@@ -50,7 +50,7 @@ public class TrRegionMap {
         }
 
         for (String regionId : this.regionKeys) {
-            Set<Pair<Integer, Integer>> posSet = loadFromBmp(this.pathMaps + regionId + ".bmp");
+            Set<Pair<Integer, Integer>> posSet = new HashSet<>(); //loadFromBmp(this.pathMaps + regionId + ".bmp");
             for (Pair<Integer, Integer> pos : posSet)
             {
                 if (pos.x() < this.x_length && pos.y() < this.z_length) {
@@ -70,7 +70,7 @@ public class TrRegionMap {
             for (String regionId : this.regionKeys) {
                 TrRegion region = this.regionList.get(regionId);
                 Set<Pair<Integer, Integer>> posSet = region.getPosSet();
-                saveToBmp(this.pathMaps + regionId + ".bmp", posSet);
+                //saveToBmp(this.pathMaps + regionId + ".bmp", posSet);
             }
             return true;
         } catch (IOException e) {
