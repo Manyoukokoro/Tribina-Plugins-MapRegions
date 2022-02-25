@@ -16,9 +16,9 @@ public class TrRegionMap {
     private File fileConfig;
     private YamlConfiguration config;
 
-    private List<String> regionKeys;
-    private Map<String, TrRegion> regionList;
-    private TrRegion[][] regionMap;
+    private final List<String> regionKeys;
+    private final Map<String, TrRegion> regionList;
+    private final TrRegion[][] regionMap;
 
     private UUID world;
     private int x_offset;
