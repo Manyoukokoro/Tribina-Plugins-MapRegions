@@ -1,6 +1,7 @@
 package net.tarcadia.tribina.plugins.mapregions;
 
 import net.tarcadia.tribina.plugins.utils.Pair;
+import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -81,4 +82,27 @@ public class TrRegionMap {
         }
     }
 
+    public TrRegion getRegion(@NonNull String regionId) { return this.regionList.get(regionId); }
+
+    public TrRegion getRegion(int x, int z) {
+        int _x = x - this.x_offset;
+        int _z = z - this.z_offset;
+        if (_x >= 0 && _z >= 0 && _x < this.x_length && _z < this.z_length) {
+            return this.regionMap[_x][_z];
+        }
+        else return null;
+    }
+
+    public TrRegion getRegion(@NonNull UUID world, int x, int z) { return (world == this.world ? getRegion(x, z) : null); }
+    public TrRegion getRegion(@NonNull Pair<Integer, Integer> pos) { return this.getRegion(pos.x(), pos.y()); }
+    public TrRegion getRegion(@NonNull Location loc) {return this.getRegion(loc.getWorld().getUID(), loc.getBlockX(), loc.getBlockZ()); }
+
+    public boolean inRegion(int x, int z, @NonNull TrRegion region) { return region.containsPos(x - this.x_offset, z - this.z_offset); }
+    public boolean inRegion(int x, int z, @NonNull String regionId) { return this.getRegion(regionId).containsPos(x - this.x_offset, z - this.z_offset); }
+    public boolean inRegion(@NonNull UUID world, int x, int z, @NonNull TrRegion region) { return (world == this.world) && region.containsPos(x - this.x_offset, z - this.z_offset); }
+    public boolean inRegion(@NonNull UUID world, int x, int z, @NonNull String regionId) { return (world == this.world) && this.getRegion(regionId).containsPos(x - this.x_offset, z - this.z_offset); }
+    public boolean inRegion(@NonNull Pair<Integer, Integer> pos, @NonNull TrRegion region) { return this.inRegion(pos.x(), pos.y(), region); }
+    public boolean inRegion(@NonNull Pair<Integer, Integer> pos, @NonNull String regionId) { return this.inRegion(pos.x(), pos.y(), regionId); }
+    public boolean inRegion(@NonNull Location loc, @NonNull TrRegion region) { return this.inRegion(loc.getWorld().getUID(), loc.getBlockX(), loc.getBlockZ(), region); }
+    public boolean inRegion(@NonNull Location loc, @NonNull String regionId) { return this.inRegion(loc.getWorld().getUID(), loc.getBlockX(), loc.getBlockZ(), regionId); }
 }
