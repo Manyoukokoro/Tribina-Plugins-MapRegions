@@ -1,0 +1,9 @@
+name: MapRegions
+version: '${project.version}'
+main: net.tarcadia.tribina.plugins.mapregions.Main
+api-version: 1.18
+prefix: TribinaMR
+load: STARTUP
+loadbefore: [ Tribina ]
+authors: [ Tarcadia ]
+description: Tribina Plugin for map region managment.
