@@ -31,13 +31,17 @@ public class TrRegionMap {
     {
         this.pathConfig = pathConfig;
         this.pathMaps = pathMaps;
-        this.fileConfig = new File(this.pathConfig);
-        this.config = YamlConfiguration.loadConfiguration(this.fileConfig);
-        this.world = UUID.fromString(this.config.getString("world", ""));
-        this.x_offset = this.config.getInt("x_offset");
-        this.z_offset = this.config.getInt("z_offset");
-        this.x_length = this.config.getInt("x_length");
-        this.z_length = this.config.getInt("z_length");
+        try {
+            this.fileConfig = new File(this.pathConfig);
+            this.config = YamlConfiguration.loadConfiguration(this.fileConfig);
+            this.world = UUID.fromString(this.config.getString("world", ""));
+            this.x_offset = this.config.getInt("x_offset");
+            this.z_offset = this.config.getInt("z_offset");
+            this.x_length = this.config.getInt("x_length");
+            this.z_length = this.config.getInt("z_length");
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Illegal configuration arguments.", e);
+        }
 
         this.regionKeys = new ArrayList<>();
         this.regionList = new HashMap<>();
@@ -45,11 +49,16 @@ public class TrRegionMap {
         ConfigurationSection configRegions = this.config.getConfigurationSection("regions");
         if (configRegions != null) {
             for (String regionId : configRegions.getKeys(false)) {
+//                if (!isLegalId(regionId)) {
+//                    throw new IllegalArgumentException("Illegal configuration keys.");
+//                }
                 ConfigurationSection configSection = configRegions.getConfigurationSection(regionId);
                 if (configSection == null) { configSection = configRegions.createSection(regionId); }
                 this.regionKeys.add(regionId);
                 this.regionList.put(regionId, new TrRegion(configSection));
             }
+        } else {
+            this.config.createSection("regions");
         }
 
         for (String regionId : this.regionKeys) {
