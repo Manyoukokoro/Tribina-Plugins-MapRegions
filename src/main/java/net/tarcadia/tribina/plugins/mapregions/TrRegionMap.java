@@ -11,20 +11,20 @@ import java.util.*;
 
 public class TrRegionMap {
 
-    private String pathConfig;
-    private String pathMaps;
-    private File fileConfig;
-    private YamlConfiguration config;
+    private final String pathConfig;
+    private final String pathMaps;
+    private final File fileConfig;
+    private final YamlConfiguration config;
 
     private final List<String> regionKeys;
     private final Map<String, TrRegion> regionList;
     private final TrRegion[][] regionMap;
 
-    private UUID world;
-    private int x_offset;
-    private int z_offset;
-    private int x_length;
-    private int z_length;
+    private final UUID world;
+    private final int x_offset;
+    private final int z_offset;
+    private final int x_length;
+    private final int z_length;
 
     public TrRegionMap(@NonNull String pathConfig, @NonNull String pathMaps)
     {
