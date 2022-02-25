@@ -195,9 +195,9 @@ public class TrRegionMap {
     public TrRegion getRegion(@NonNull Location loc) {return this.getRegion(loc.getWorld().getUID(), loc.getBlockX(), loc.getBlockZ()); }
 
     public boolean inRegion(int x, int z, @NonNull TrRegion region) { return region.containsPos(x - this.x_offset, z - this.z_offset); }
-    public boolean inRegion(int x, int z, @NonNull String regionId) { return this.getRegion(regionId).containsPos(x - this.x_offset, z - this.z_offset); }
-    public boolean inRegion(@NonNull UUID world, int x, int z, @NonNull TrRegion region) { return (world == this.world) && region.containsPos(x - this.x_offset, z - this.z_offset); }
-    public boolean inRegion(@NonNull UUID world, int x, int z, @NonNull String regionId) { return (world == this.world) && this.getRegion(regionId).containsPos(x - this.x_offset, z - this.z_offset); }
+    public boolean inRegion(int x, int z, @NonNull String regionId) { return this.regionKeys.contains(regionId) && this.getRegion(regionId).containsPos(x - this.x_offset, z - this.z_offset); }
+    public boolean inRegion(@NonNull UUID world, int x, int z, @NonNull TrRegion region) { return (world == this.world) && this.inRegion(x, z, region); }
+    public boolean inRegion(@NonNull UUID world, int x, int z, @NonNull String regionId) { return (world == this.world) && this.inRegion(x, z, regionId); }
     public boolean inRegion(@NonNull Pair<Integer, Integer> pos, @NonNull TrRegion region) { return this.inRegion(pos.x(), pos.y(), region); }
     public boolean inRegion(@NonNull Pair<Integer, Integer> pos, @NonNull String regionId) { return this.inRegion(pos.x(), pos.y(), regionId); }
     public boolean inRegion(@NonNull Location loc, @NonNull TrRegion region) { return this.inRegion(loc.getWorld().getUID(), loc.getBlockX(), loc.getBlockZ(), region); }
