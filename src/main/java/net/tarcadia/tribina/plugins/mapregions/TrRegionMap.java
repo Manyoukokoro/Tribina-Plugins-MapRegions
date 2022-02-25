@@ -41,11 +41,13 @@ public class TrRegionMap {
         this.regionKeys = new ArrayList<>();
         this.regionList = new HashMap<>();
         this.regionMap = new TrRegion[this.x_length][this.z_length];
-        ConfigurationSection configurationSection = this.config.getConfigurationSection("regions");
-        if (configurationSection != null) {
-            for (String regionId : configurationSection.getKeys(false)) {
+        ConfigurationSection configRegions = this.config.getConfigurationSection("regions");
+        if (configRegions != null) {
+            for (String regionId : configRegions.getKeys(false)) {
+                ConfigurationSection configSection = configRegions.getConfigurationSection(regionId);
+                if (configSection == null) { configSection = configRegions.createSection(regionId); }
                 this.regionKeys.add(regionId);
-                this.regionList.put(regionId, new TrRegion(configurationSection.getConfigurationSection(regionId)));
+                this.regionList.put(regionId, new TrRegion(configSection));
             }
         }
 
