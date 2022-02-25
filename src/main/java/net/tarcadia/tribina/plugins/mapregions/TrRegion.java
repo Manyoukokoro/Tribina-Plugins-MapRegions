@@ -9,17 +9,12 @@ import java.util.Set;
 
 public class TrRegion {
 
-    private Set<Pair<Integer, Integer>> posSet;
-    private ConfigurationSection config;
+    private final Set<Pair<Integer, Integer>> posSet;
+    private final ConfigurationSection config;
 
     public TrRegion(@NonNull ConfigurationSection config) {
         this.posSet = new HashSet<>();
         this.config = config;
-    }
-
-    public boolean setConfig(@NonNull ConfigurationSection config) {
-        this.config = config;
-        return true;
     }
 
     public boolean setValue(@NonNull String key, Object obj) {
@@ -45,10 +40,7 @@ public class TrRegion {
         return this.posSet.add(new Pair<>(x, y));
     }
 
-    public boolean addPos(Pair<Integer, Integer> pos)
-    {
-        return this.posSet.add(pos.clone());
-    }
+    public boolean addPos(Pair<Integer, Integer> pos) { return this.posSet.add(pos.copy()); }
 
     public boolean addPosSet(Set<Pair<Integer, Integer>> posSet)
     {
