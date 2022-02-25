@@ -158,6 +158,8 @@ public class TrRegionMap {
         }
     }
 
+    public YamlConfiguration getConfig() { return this.config; }
+
     @Nullable
     public TrRegion createRegion(@NonNull String regionId)
     {
