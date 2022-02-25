@@ -16,6 +16,7 @@ public class TrRegionMap {
     private final String pathMaps;
     private final File fileConfig;
     private final YamlConfiguration config;
+    private final ConfigurationSection configRegions;
 
     private final List<String> regionKeys;
     private final Map<String, TrRegion> regionList;
@@ -31,25 +32,35 @@ public class TrRegionMap {
     {
         this.pathConfig = pathConfig;
         this.pathMaps = pathMaps;
-        this.fileConfig = new File(this.pathConfig);
-        this.config = YamlConfiguration.loadConfiguration(this.fileConfig);
-        this.world = UUID.fromString(this.config.getString("world", ""));
-        this.x_offset = this.config.getInt("x_offset");
-        this.z_offset = this.config.getInt("z_offset");
-        this.x_length = this.config.getInt("x_length");
-        this.z_length = this.config.getInt("z_length");
+        try {
+            this.fileConfig = new File(this.pathConfig);
+            this.config = YamlConfiguration.loadConfiguration(this.fileConfig);
+            this.world = UUID.fromString(this.config.getString("world", ""));
+            this.x_offset = this.config.getInt("x_offset");
+            this.z_offset = this.config.getInt("z_offset");
+            this.x_length = this.config.getInt("x_length");
+            this.z_length = this.config.getInt("z_length");
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Illegal configuration arguments.", e);
+        }
 
         this.regionKeys = new ArrayList<>();
         this.regionList = new HashMap<>();
         this.regionMap = new TrRegion[this.x_length][this.z_length];
         ConfigurationSection configRegions = this.config.getConfigurationSection("regions");
         if (configRegions != null) {
-            for (String regionId : configRegions.getKeys(false)) {
+            this.configRegions = configRegions;
+            for (String regionId : this.configRegions.getKeys(false)) {
+//                if (!isLegalId(regionId)) {
+//                    throw new IllegalArgumentException("Illegal configuration keys.");
+//                }
                 ConfigurationSection configSection = configRegions.getConfigurationSection(regionId);
                 if (configSection == null) { configSection = configRegions.createSection(regionId); }
                 this.regionKeys.add(regionId);
                 this.regionList.put(regionId, new TrRegion(configSection));
             }
+        } else {
+            this.configRegions = this.config.createSection("regions");
         }
 
         for (String regionId : this.regionKeys) {
