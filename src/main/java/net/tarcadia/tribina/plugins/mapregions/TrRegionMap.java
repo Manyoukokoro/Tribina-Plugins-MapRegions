@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -95,6 +96,7 @@ public class TrRegionMap {
 
     public TrRegion getRegion(@NonNull String regionId) { return this.regionList.get(regionId); }
 
+    @Nullable
     public TrRegion getRegion(int x, int z) {
         int _x = x - this.x_offset;
         int _z = z - this.z_offset;
@@ -104,8 +106,13 @@ public class TrRegionMap {
         else return null;
     }
 
+    @Nullable
     public TrRegion getRegion(@NonNull UUID world, int x, int z) { return (world == this.world ? getRegion(x, z) : null); }
+
+    @Nullable
     public TrRegion getRegion(@NonNull Pair<Integer, Integer> pos) { return this.getRegion(pos.x(), pos.y()); }
+
+    @Nullable
     public TrRegion getRegion(@NonNull Location loc) {return this.getRegion(loc.getWorld().getUID(), loc.getBlockX(), loc.getBlockZ()); }
 
     public boolean inRegion(int x, int z, @NonNull TrRegion region) { return region.containsPos(x - this.x_offset, z - this.z_offset); }
