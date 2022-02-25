@@ -4,6 +4,7 @@ import net.tarcadia.tribina.plugins.utils.Pair;
 import org.bukkit.configuration.ConfigurationSection;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,6 +36,12 @@ public class TrRegion {
         return this.posSet;
     }
 
+    public boolean containsPos(int x, int y) { return this.posSet.contains(new Pair<>(x, y)); }
+
+    public boolean containsPos(Pair<Integer, Integer> pos) { return this.posSet.contains(pos); }
+
+    public boolean containsPosSet(Collection<Pair<Integer, Integer>> posSet) {return this.posSet.containsAll(posSet); }
+
     public boolean addPos(int x, int y)
     {
         return this.posSet.add(new Pair<>(x, y));
@@ -42,7 +49,7 @@ public class TrRegion {
 
     public boolean addPos(Pair<Integer, Integer> pos) { return this.posSet.add(pos.copy()); }
 
-    public boolean addPosSet(Set<Pair<Integer, Integer>> posSet)
+    public boolean addPosSet(Collection<Pair<Integer, Integer>> posSet)
     {
         return this.posSet.addAll(posSet);
     }
@@ -57,10 +64,10 @@ public class TrRegion {
         return this.posSet.remove(pos);
     }
 
-    public boolean removePosSet(Set<Pair<Integer, Integer>> posSet)
+    public boolean removePosSet(Collection<Pair<Integer, Integer>> posSet)
     {
         return this.posSet.removeAll(posSet);
     }
 
-    public boolean retainPosSet(Set<Pair<Integer, Integer>> posSet) { return this.posSet.retainAll(posSet); }
+    public boolean retainPosSet(Collection<Pair<Integer, Integer>> posSet) { return this.posSet.retainAll(posSet); }
 }
