@@ -32,16 +32,7 @@ public class RegionMap {
 		this.pathConfig = pathConfig;
 		this.pathMaps = pathMaps;
 		this.fileConfig = new File(this.pathConfig);
-		this.regionMap = new TreeMap<>(new Comparator<>() {
-			@Override
-			public int compare(Pair<Integer, Integer> pos1, Pair<Integer, Integer> pos2) {
-				int result = pos1.x().compareTo(pos2.x());
-				if (result != 0) {
-					return result;
-				}
-				return pos1.y().compareTo(pos2.y());
-			}
-		});
+		this.regionMap = new TreeMap<>(Comparator.comparingInt((Pair<Integer, Integer> pos) -> pos.x()).thenComparingInt(Pair::y));
 		try {
 			this.load();
 		} catch (IOException e)
@@ -120,16 +111,7 @@ public class RegionMap {
 	}
 
 	public void saveMap(@NonNull String regionId) throws IOException {
-		Set<Pair<Integer, Integer>> posSet = new TreeSet<>(new Comparator<>() {
-			@Override
-			public int compare(Pair<Integer, Integer> pos1, Pair<Integer, Integer> pos2) {
-				int result = pos1.x().compareTo(pos2.x());
-				if (result != 0) {
-					return result;
-				}
-				return pos1.y().compareTo(pos2.y());
-			}
-		});
+		Set<Pair<Integer, Integer>> posSet = new TreeSet<>(Comparator.comparingInt((Pair<Integer, Integer> pos) -> pos.x()).thenComparingInt(Pair::y));
 
 		for (var pos : this.regionMap.keySet()) {
 			if (regionId.equals(regionMap.get(pos))) {
@@ -151,16 +133,7 @@ public class RegionMap {
 		for (var pos : this.regionMap.keySet()) {
 			var regionId = this.regionMap.get(pos);
 			// TODO: this can be polished as there should not be always map.get(pos) when traversal it
-			var posSet = posSets.computeIfAbsent(regionId, k -> new TreeSet<>(new Comparator<>() {
-				@Override
-				public int compare(Pair<Integer, Integer> pos1, Pair<Integer, Integer> pos2) {
-					int result = pos1.x().compareTo(pos2.x());
-					if (result != 0) {
-						return result;
-					}
-					return pos1.y().compareTo(pos2.y());
-				}
-			}));
+			var posSet = posSets.computeIfAbsent(regionId, k -> new TreeSet<>(Comparator.comparingInt((Pair<Integer, Integer> pos3) -> pos3.x()).thenComparingInt(Pair::y)));
 			posSet.add(pos);
 		}
 
