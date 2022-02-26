@@ -179,4 +179,20 @@ public class RegionMap {
 	public boolean inRegion(@NonNull Location loc, @NonNull String regionId) {
 		return this.inRegion(loc.getWorld().getUID(), loc.getBlockX(), loc.getBlockZ(), regionId);
 	}
+
+	public String getRegion(int x, int z) {
+		return this.regionMap.get(new Pair<>(x - this.x_offset, z - this.z_offset));
+	}
+
+	public String getRegion(@NonNull UUID world, int x, int z) {
+		return (world.equals(this.world)) ? this.getRegion(x, z) : null;
+	}
+
+	public String getRegion(@NonNull Pair<Integer, Integer> pos) {
+		return this.getRegion(pos.x(), pos.y());
+	}
+
+	public String getRegion(@NonNull Location loc) {
+		return this.getRegion(Objects.requireNonNull(loc.getWorld()).getUID(), loc.getBlockX(), loc.getBlockZ());
+	}
 }
