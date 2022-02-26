@@ -113,10 +113,9 @@ public class RegionMap {
 	public void saveMap(@NonNull String regionId) throws IOException {
 		Set<Pair<Integer, Integer>> posSet = new TreeSet<>(Comparator.comparingInt((Pair<Integer, Integer> pos) -> pos.x()).thenComparingInt(Pair::y));
 
-		for (var pos : this.regionMap.keySet()) {
-			if (regionId.equals(regionMap.get(pos))) {
-				// TODO: this can be polished as there should not be always map.get(pos) when traversal it
-				posSet.add(pos);
+		for (var e : this.regionMap.entrySet()) {
+			if (regionId.equals(e.getValue())) {
+				posSet.add(e.getKey());
 			}
 		}
 		try {
@@ -130,11 +129,10 @@ public class RegionMap {
 		List<Exception> es = new LinkedList<>();
 
 		Map<String, Set<Pair<Integer, Integer>>> posSets = new HashMap<>();
-		for (var pos : this.regionMap.keySet()) {
-			var regionId = this.regionMap.get(pos);
-			// TODO: this can be polished as there should not be always map.get(pos) when traversal it
+		for (var e : this.regionMap.entrySet()) {
+			var regionId = e.getValue();
 			var posSet = posSets.computeIfAbsent(regionId, k -> new TreeSet<>(Comparator.comparingInt((Pair<Integer, Integer> pos3) -> pos3.x()).thenComparingInt(Pair::y)));
-			posSet.add(pos);
+			posSet.add(e.getKey());
 		}
 
 		for (String regionId : this.configRegions.getKeys(false)) {
