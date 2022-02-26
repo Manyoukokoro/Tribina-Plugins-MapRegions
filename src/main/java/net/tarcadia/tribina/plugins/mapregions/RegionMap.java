@@ -195,4 +195,42 @@ public class RegionMap {
 	public String getRegion(@NonNull Location loc) {
 		return this.getRegion(Objects.requireNonNull(loc.getWorld()).getUID(), loc.getBlockX(), loc.getBlockZ());
 	}
+
+	public void addToRegion(int x, int z, @NonNull String regionId) {
+		int _x = x - this.x_offset;
+		int _z = z - this.z_offset;
+		if (_x >= 0 && _z >= 0 && _x < this.x_length && _z < this.z_length) {
+			this.regionMap.putIfAbsent(new Pair<>(_x, _z), regionId);
+		}
+	}
+
+	public void addToRegion(@NonNull UUID world, int x, int z, @NonNull String regionId) {
+		if (world.equals(this.world)) {
+			this.addToRegion(x, z, regionId);
+		}
+	}
+
+	public void addToRegion(@NonNull Pair<Integer, Integer> pos, @NonNull String regionId) {
+		this.addToRegion(pos.x(), pos.y(), regionId);
+	}
+
+	public void addToRegion(@NonNull UUID world, @NonNull Pair<Integer, Integer> pos, @NonNull String regionId) {
+		this.addToRegion(world, pos.x(), pos.y(), regionId);
+	}
+
+	public void addToRegion(@NonNull Collection<Pair<Integer, Integer>> posSet, @NonNull String regionId) {
+		for (var pos : posSet) {
+			this.addToRegion(pos.x(), pos.y(), regionId);
+		}
+	}
+
+	public void addToRegion(@NonNull UUID world, @NonNull Collection<Pair<Integer, Integer>> posSet, @NonNull String regionId) {
+		if (world.equals(this.world)) {
+			this.addToRegion(posSet, regionId);
+		}
+	}
+
+	public void addToRegion(@NonNull Location loc, @NonNull String regionId) {
+		this.addToRegion(loc.getWorld().getUID(), loc.getBlockX(), loc.getBlockZ(), regionId);
+	}
 }
