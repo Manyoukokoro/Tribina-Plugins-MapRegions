@@ -1,4 +1,4 @@
-package net.tarcadia.tribina.plugin.mapregion;
+package net.tarcadia.tribina.plugin.mapregions;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
