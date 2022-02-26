@@ -12,83 +12,13 @@ import java.io.IOException;
 import java.util.*;
 
 public class RegionMap {
-	private class Region {
-
-		private final Set<Pair<Integer, Integer>> posSet;
-		private final ConfigurationSection config;
-
-		public Region(@NonNull ConfigurationSection config) {
-			this.posSet = new HashSet<>();
-			this.config = config;
-		}
-
-		public ConfigurationSection getConfig() {
-			return this.config;
-		}
-
-		public boolean setValue(@NonNull String key, Object obj) {
-			this.config.set(key, obj);
-			return true;
-		}
-
-		public Object getValue(@NonNull String key) {
-			return this.config.get(key);
-		}
-
-		public Set<Pair<Integer, Integer>> getPosSet()
-		{
-			return this.posSet;
-		}
-
-		public boolean containsPos(int x, int y) {
-			return this.posSet.contains(new Pair<>(x, y));
-		}
-
-		public boolean containsPos(Pair<Integer, Integer> pos) {
-			return this.posSet.contains(pos);
-		}
-
-		public boolean containsPosSet(Collection<Pair<Integer, Integer>> posSet) {
-			return this.posSet.containsAll(posSet);
-		}
-
-		public boolean addPos(int x, int y) {
-			return this.posSet.add(new Pair<>(x, y));
-		}
-
-		public boolean addPos(Pair<Integer, Integer> pos) {
-			return this.posSet.add(pos.clone());
-		}
-
-		public boolean addPosSet(Collection<Pair<Integer, Integer>> posSet) {
-			return this.posSet.addAll(posSet);
-		}
-
-		public boolean removePos(int x, int y) {
-			return this.posSet.remove(new Pair<>(x, y));
-		}
-
-		public boolean removePos(Pair<Integer, Integer> pos) {
-			return this.posSet.remove(pos);
-		}
-
-		public boolean removePosSet(Collection<Pair<Integer, Integer>> posSet) {
-			return this.posSet.removeAll(posSet);
-		}
-
-		public boolean retainPosSet(Collection<Pair<Integer, Integer>> posSet) {
-			return this.posSet.retainAll(posSet);
-		}
-	}
-
 	private final String pathConfig;
 	private final String pathMaps;
 	private final File fileConfig;
 	private final YamlConfiguration config;
 	private final ConfigurationSection configRegions;
 
-	private final Map<String, Region> regionList;
-	private final Map<Pair<Integer, Integer>, Region> regionMap;
+	private final Map<Pair<Integer, Integer>, String> regionMap;
 
 	private final UUID world;
 	private final int x_offset;
@@ -111,8 +41,7 @@ public class RegionMap {
 			throw new IllegalArgumentException("Illegal configuration arguments", e);
 		}
 
-		this.regionList = new HashMap<>();
-		this.regionMap = new TreeMap<Pair<Integer, Integer>, Region>(new Comparator<Pair<Integer, Integer>>() {
+		this.regionMap = new TreeMap<>(new Comparator<>() {
 			@Override
 			public int compare(Pair<Integer, Integer> pos1, Pair<Integer, Integer> pos2) {
 				int result = pos1.x().compareTo(pos2.x());
@@ -122,35 +51,43 @@ public class RegionMap {
 				return pos1.y().compareTo(pos2.y());
 			}
 		});
+
 		ConfigurationSection configRegions = this.config.getConfigurationSection("regions");
 		if (configRegions != null) {
 			this.configRegions = configRegions;
 			for (String regionId : this.configRegions.getKeys(false)) {
-				ConfigurationSection configSection = configRegions.getConfigurationSection(regionId);
-				if (configSection == null) { configSection = configRegions.createSection(regionId); }
-				if (this.regionList.putIfAbsent(regionId, new Region(configSection)) == null) {
-					throw new IllegalArgumentException("Duplicated regionId");
+				if (configRegions.getConfigurationSection(regionId) == null) { configRegions.createSection(regionId); }
+				Set<Pair<Integer, Integer>> posSet = new HashSet<>();
+				// TODO: load posSet from a Bitmap file
+				for (Pair<Integer, Integer> pos : posSet) {
+					this.regionMap.put(pos, regionId);
 				}
 			}
 		} else {
 			this.configRegions = this.config.createSection("regions");
 		}
-
-		for (var region : this.regionList.values()) {
-			Set<Pair<Integer, Integer>> posSet = new HashSet<>();
-			// TODO: load posSet from a Bitmap file
-			for (Pair<Integer, Integer> pos : posSet) {
-				this.regionMap.put(pos, region);
-				region.addPos(pos);
-			}
-		}
 	}
 
-	public boolean save() { // should throw an exception when failed
+	public boolean save() throws IOException {
+		Map<String, Set<Pair<Integer, Integer>>> posSets = new HashMap<>();
+		for (var pos : this.regionMap.keySet()) {
+			var regionId = this.regionMap.get(pos);
+			var posSet = posSets.computeIfAbsent(regionId, k -> new TreeSet<>(new Comparator<>() {
+				@Override
+				public int compare(Pair<Integer, Integer> pos1, Pair<Integer, Integer> pos2) {
+					int result = pos1.x().compareTo(pos2.x());
+					if (result != 0) {
+						return result;
+					}
+					return pos1.y().compareTo(pos2.y());
+				}
+			}));
+			posSet.add(pos);
+		}
 		try {
 			this.config.save(this.fileConfig);
-			for (var region : this.regionList.values()) {
-				var posSet = region.getPosSet();
+			for (String regionId : this.configRegions.getKeys(false)) {
+				var posSet = posSets.get(regionId);
 				// TODO: save posSet into a Bitmap file
 			}
 			return true;
@@ -162,70 +99,29 @@ public class RegionMap {
 	public YamlConfiguration getConfig() { return this.config; }
 
 	public boolean setValue(@NonNull String regionId, @NonNull String key, Object obj) {
-		this.regionList.get(regionId).setValue(key, obj);
+		this.configRegions.getConfigurationSection(regionId).set(key, obj);
 		return true;
 	}
 
 	public Object getValue(@NonNull String regionId, @NonNull String key) {
-		return this.regionList.get(regionId).getValue(key);
+		return this.configRegions.getConfigurationSection(regionId).get(key);
 	}
 
 	public void createRegion(@NonNull String regionId) {
+		// TODO: check if regionId is a suitable string for id;
 		ConfigurationSection configSection = this.configRegions.createSection(regionId);
-		Region region = new Region(configSection);
-		this.regionList.put(regionId, region);
-	}
-
-	private @Nullable Region getRegion(@NonNull String regionId) {
-		return this.regionList.get(regionId);
-	}
-
-	private @Nullable Region getRegion(int x, int z) {
-		return this.regionMap.get(new Pair(x - this.x_offset, z - this.z_offset));
-	}
-
-	private @Nullable Region getRegion(@NonNull UUID world, int x, int z) {
-		return (world == this.world ? getRegion(x, z) : null);
-	}
-
-	private @Nullable Region getRegion(@NonNull Pair<Integer, Integer> pos) {
-		return this.getRegion(pos.x(), pos.y());
-	}
-
-	private @Nullable Region getRegion(@NonNull Location loc) {
-		return this.getRegion(loc.getWorld().getUID(), loc.getBlockX(), loc.getBlockZ());
-	}
-
-	public boolean inRegion(int x, int z, @NonNull Region region) {
-		return region.containsPos(x - this.x_offset, z - this.z_offset);
 	}
 
 	public boolean inRegion(int x, int z, @NonNull String regionId) {
-		var region = this.getRegion(regionId);
-		if (region == null) {
-			return false;
-		}
-		return this.inRegion(x, z, region);
-	}
-
-	public boolean inRegion(@NonNull UUID world, int x, int z, @NonNull Region region) {
-		return (world == this.world) && this.inRegion(x, z, region);
+		return regionId.equals(this.regionMap.get(new Pair<>(x - this.x_offset, z - this.z_offset)));
 	}
 
 	public boolean inRegion(@NonNull UUID world, int x, int z, @NonNull String regionId) {
-		return (world == this.world) && this.inRegion(x, z, regionId);
-	}
-
-	public boolean inRegion(@NonNull Pair<Integer, Integer> pos, @NonNull Region region) {
-		return this.inRegion(pos.x(), pos.y(), region);
+		return world.equals(this.world) && this.inRegion(x, z, regionId);
 	}
 
 	public boolean inRegion(@NonNull Pair<Integer, Integer> pos, @NonNull String regionId) {
 		return this.inRegion(pos.x(), pos.y(), regionId);
-	}
-
-	public boolean inRegion(@NonNull Location loc, @NonNull Region region) {
-		return this.inRegion(loc.getWorld().getUID(), loc.getBlockX(), loc.getBlockZ(), region);
 	}
 
 	public boolean inRegion(@NonNull Location loc, @NonNull String regionId) {
