@@ -91,8 +91,8 @@ public class RegionMap {
 				// TODO: save posSet into a Bitmap file
 			}
 			return true;
-		} catch (IOException e) {
-			return false;
+		} catch (Exception e) {
+			throw new IOException("Save file failed", e);
 		}
 	}
 
