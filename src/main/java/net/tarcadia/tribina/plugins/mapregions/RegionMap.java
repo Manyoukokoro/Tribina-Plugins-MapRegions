@@ -20,11 +20,11 @@ public class RegionMap {
 
 	private final Map<Pair<Integer, Integer>, String> regionMap;
 
-	private final UUID world;
-	private final int x_offset;
-	private final int z_offset;
-	private final int x_length;
-	private final int z_length;
+	private UUID world;
+	private int x_offset;
+	private int z_offset;
+	private int x_length;
+	private int z_length;
 
 	public RegionMap(@NonNull String pathConfig, @NonNull String pathMaps) {
 		this.pathConfig = pathConfig;
