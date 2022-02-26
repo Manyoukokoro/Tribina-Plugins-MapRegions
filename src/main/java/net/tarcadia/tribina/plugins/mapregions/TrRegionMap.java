@@ -169,8 +169,7 @@ public class TrRegionMap {
         return this.regionList.get(regionId).getValue(key);
     }
 
-    @Nullable
-    public TrRegion createRegion(@NonNull String regionId)
+    public void createRegion(@NonNull String regionId)
     {
 //        if (!isLegalId(regionId)) {
 //            throw new IllegalArgumentException("Illegal configuration keys.");
@@ -180,14 +179,14 @@ public class TrRegionMap {
         TrRegion region = new TrRegion(configSection);
         this.regionKeys.add(regionId);
         this.regionList.put(regionId, region);
-        return region;
+        return;
     }
 
     @Nullable
-    public TrRegion getRegion(@NonNull String regionId) { return this.regionList.get(regionId); }
+    private TrRegion getRegion(@NonNull String regionId) { return this.regionList.get(regionId); }
 
     @Nullable
-    public TrRegion getRegion(int x, int z) {
+    private TrRegion getRegion(int x, int z) {
         int _x = x - this.x_offset;
         int _z = z - this.z_offset;
         if (_x >= 0 && _z >= 0 && _x < this.x_length && _z < this.z_length) {
@@ -197,13 +196,13 @@ public class TrRegionMap {
     }
 
     @Nullable
-    public TrRegion getRegion(@NonNull UUID world, int x, int z) { return (world == this.world ? getRegion(x, z) : null); }
+    private TrRegion getRegion(@NonNull UUID world, int x, int z) { return (world == this.world ? getRegion(x, z) : null); }
 
     @Nullable
-    public TrRegion getRegion(@NonNull Pair<Integer, Integer> pos) { return this.getRegion(pos.x(), pos.y()); }
+    private TrRegion getRegion(@NonNull Pair<Integer, Integer> pos) { return this.getRegion(pos.x(), pos.y()); }
 
     @Nullable
-    public TrRegion getRegion(@NonNull Location loc) {return this.getRegion(loc.getWorld().getUID(), loc.getBlockX(), loc.getBlockZ()); }
+    private TrRegion getRegion(@NonNull Location loc) {return this.getRegion(loc.getWorld().getUID(), loc.getBlockX(), loc.getBlockZ()); }
 
     public boolean inRegion(int x, int z, @NonNull TrRegion region) { return region.containsPos(x - this.x_offset, z - this.z_offset); }
     public boolean inRegion(int x, int z, @NonNull String regionId) { return this.regionKeys.contains(regionId) && this.getRegion(regionId).containsPos(x - this.x_offset, z - this.z_offset); }
