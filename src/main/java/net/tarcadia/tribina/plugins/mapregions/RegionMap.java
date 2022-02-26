@@ -16,10 +16,11 @@ public class RegionMap {
 	private final String pathConfig;
 	private final String pathMaps;
 	private final File fileConfig;
-	private final YamlConfiguration config;
-	private final ConfigurationSection configRegions;
 
 	private final Map<Pair<Integer, Integer>, String> regionMap;
+
+	private YamlConfiguration config;
+	private ConfigurationSection configRegions;
 
 	private UUID world;
 	private int x_offset;
