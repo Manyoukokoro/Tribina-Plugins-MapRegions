@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
 
 public class RegionMap {
 	private final String pathConfig;
@@ -35,9 +36,14 @@ public class RegionMap {
 		this.regionMap = new TreeMap<>(Comparator.comparingInt((Pair<Integer, Integer> pos) -> pos.x()).thenComparingInt(Pair::y));
 		try {
 			this.load();
-		} catch (IOException e)
-		{
-			// TODO: Log error
+		} catch (IOException e) {
+			Main.logger.log(
+					Level.SEVERE,
+					"Cannot load region map at " +
+							"pathConfig = '" + pathConfig + "', " +
+							"pathMaps = '" + pathMaps + "'.",
+					e
+			);
 		}
 	}
 
