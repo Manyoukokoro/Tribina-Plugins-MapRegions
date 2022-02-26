@@ -69,6 +69,12 @@ public class RegionMap {
 	}
 
 	public boolean save() throws IOException {
+		this.config.set("world", this.world);
+		this.config.set("x_offset", this.x_offset);
+		this.config.set("z_offset", this.z_offset);
+		this.config.set("x_length", this.x_length);
+		this.config.set("z_length", this.z_length);
+
 		Map<String, Set<Pair<Integer, Integer>>> posSets = new HashMap<>();
 		for (var pos : this.regionMap.keySet()) {
 			var regionId = this.regionMap.get(pos);
