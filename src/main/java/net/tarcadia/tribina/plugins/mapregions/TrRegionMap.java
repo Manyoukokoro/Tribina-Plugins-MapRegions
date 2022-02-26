@@ -160,6 +160,15 @@ public class TrRegionMap {
 
     public YamlConfiguration getConfig() { return this.config; }
 
+    public boolean setValue(@NonNull String regionId, @NonNull String key, Object obj) {
+        this.regionList.get(regionId).setValue(key, obj);
+        return true;
+    }
+
+    public Object getValue(@NonNull String regionId, @NonNull String key) {
+        return this.regionList.get(regionId).getValue(key);
+    }
+
     @Nullable
     public TrRegion createRegion(@NonNull String regionId)
     {
