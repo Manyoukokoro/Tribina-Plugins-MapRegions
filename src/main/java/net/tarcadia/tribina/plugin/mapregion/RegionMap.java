@@ -1,6 +1,6 @@
-package net.tarcadia.tribina.plugins.mapregions;
+package net.tarcadia.tribina.plugin.mapregion;
 
-import net.tarcadia.tribina.plugins.utils.Pair;
+import net.tarcadia.tribina.plugin.util.Pair;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
