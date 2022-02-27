@@ -7,3 +7,56 @@ load: STARTUP
 loadbefore: [ Tribina ]
 authors: [ Tarcadia ]
 description: '${project.description}'
+commands:
+  tribina mr list maps:
+    description: List all maps loaded.
+    usage: tribina mr list maps
+    permission: tribina.mapregions.list.maps
+    permission-message: Access denied.
+  tribina mr list regions:
+    description: List all regions loaded in a map.
+    usage: tribina mr list regions <mapId>
+    permission: tribina.mapregions.list.regions
+    permission-message: Access denied.
+  tribina mr reload configs:
+    description: Reload all configs of Tribina MapRegions.
+    usage: tribina mr reload configs
+    permission: tribina.mapregions.reload.configs
+    permission-message: Access denied.
+  tribina mr reload map:
+    description: Reload all configs of a map.
+    usage: tribina mr reload map <mapId> [, <mapId>, ...]
+    permission: tribina.mapregions.reload.map
+    permission-message: Access denied.
+  tribina mr reload region:
+    description: Reload all configs of a region.
+    usage: tribina mr reload region <mapId> <regionId> [, <regionId>, ...]
+    permission: tribina.mapregions.reload.region
+    permission-message: Access denied.
+permissions:
+  tribina.mapregions.*:
+    default: op
+    children:
+      tribina.mapregions.list.*: true
+      tribina.mapregions.reload.*: true
+  tribina.mapregions.list.*:
+    default: op
+    children:
+      tribina.mapregions.list.maps: true
+      tribina.mapregions.list.regions: true
+  tribina.mapregions.list.maps:
+    default: op
+  tribina.mapregions.list.regions:
+    default: op
+  tribina.mapregions.reload.*:
+    default: op
+    children:
+      tribina.mapregions.reload.configs: true
+      tribina.mapregions.reload.map: true
+      tribina.mapregions.reload.region: true
+  tribina.mapregions.reload.configs:
+    default: op
+  tribina.mapregions.reload.map:
+    default: op
+  tribina.mapregions.reload.region:
+    default: op

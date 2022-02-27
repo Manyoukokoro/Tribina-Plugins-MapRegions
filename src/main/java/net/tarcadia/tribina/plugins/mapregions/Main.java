@@ -1,20 +1,25 @@
 package net.tarcadia.tribina.plugins.mapregions;
 
+import net.tarcadia.tribina.plugins.mapregions.command.BaseCommand;
+import net.tarcadia.tribina.plugins.mapregions.command.CommandReloadConfigs;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Logger;
 
 public final class Main extends JavaPlugin {
 
-	public static JavaPlugin plugin = null;
+	public static Main plugin = null;
 	public static FileConfiguration config = null;
 	public static PluginDescriptionFile descrp = null;
 	public static Logger logger = null;
 	public static String dataPath = null;
 
 	private RegionMaps regionMaps;
+	private List<BaseCommand> commands;
 
 	@Override
 	public void onLoad() {
@@ -29,6 +34,9 @@ public final class Main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		this.regionMaps = new RegionMaps(Main.config, Main.dataPath);
+		this.commands = new LinkedList<>();
+		this.commands.add(new CommandReloadConfigs("tribina mr reload configs"));
+		this.commands.add(new CommandReloadConfigs("tribina mr reload map"));
 		Main.logger.info("Enabled " + Main.descrp.getName() + " v" + Main.descrp.getVersion());
 	}
 
@@ -37,5 +45,21 @@ public final class Main extends JavaPlugin {
 		this.saveDefaultConfig();
 		this.regionMaps.save();
 		Main.logger.info("Disabled " + Main.descrp.getName() + " v" + Main.descrp.getVersion());
+	}
+
+	public void reloadConfigs() {
+		this.reloadConfig();
+		Main.config = this.getConfig();
+		this.regionMaps = new RegionMaps(Main.config, Main.dataPath);
+	}
+
+	public void reloadMap(String mapId) {
+		if (this.regionMaps.inMapList(mapId)) {
+			this.regionMaps.loadMap(mapId);
+		}
+	}
+
+	public List<String> getMapList() {
+		return this.regionMaps.getMapList();
 	}
 }

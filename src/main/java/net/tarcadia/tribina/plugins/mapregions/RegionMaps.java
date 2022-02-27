@@ -10,11 +10,11 @@ import java.util.logging.Level;
 
 public class RegionMaps {
 
-    private String pathRegionMaps;
-    private ConfigurationSection config;
-    private ConfigurationSection configGlobal;
-    private List<String> mapsList;
-    private Map<String, RegionMap> maps;
+    private final String pathRegionMaps;
+    private final ConfigurationSection config;
+    private final ConfigurationSection configGlobal;
+    private final List<String> mapsList;
+    private final Map<String, RegionMap> maps;
 
     public RegionMaps(@NonNull ConfigurationSection config, @NonNull String pathRegionMaps) {
         this.pathRegionMaps = pathRegionMaps;
@@ -26,10 +26,7 @@ public class RegionMaps {
         this.mapsList = this.config.getStringList("maps");
         this.maps = new HashMap<>();
         for (String mapId : this.mapsList) {
-            this.maps.putIfAbsent(mapId, new RegionMap(
-                    this.pathRegionMaps + "/" + mapId + ".yml",
-                    this.pathRegionMaps + "/" + mapId
-            ));
+            this.loadMap(mapId);
         }
     }
 
@@ -43,11 +40,15 @@ public class RegionMaps {
         this.mapsList = this.config.getStringList("maps");
         this.maps = new HashMap<>();
         for (String mapId : this.mapsList) {
-            this.maps.putIfAbsent(mapId, new RegionMap(
-                    this.pathRegionMaps + "/" + mapId + ".yml",
-                    this.pathRegionMaps + "/" + mapId
-            ));
+            this.loadMap(mapId);
         }
+    }
+
+    public void loadMap(String mapId) {
+        this.maps.putIfAbsent(mapId, new RegionMap(
+                this.pathRegionMaps + "/" + mapId + ".yml",
+                this.pathRegionMaps + "/" + mapId
+        ));
     }
 
     public void save() {
@@ -62,6 +63,14 @@ public class RegionMaps {
                 );
             }
         }
+    }
+
+    public List<String> getMapList() {
+        return List.copyOf(this.mapsList);
+    }
+
+    public boolean inMapList(String mapId) {
+        return this.mapsList.contains(mapId);
     }
 
 }
