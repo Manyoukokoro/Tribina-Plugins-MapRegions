@@ -160,13 +160,12 @@ public class RegionMap {
 
 	public YamlConfiguration getConfig() { return this.config; }
 
-	public boolean setValue(@NonNull String regionId, @NonNull String key, Object obj) {
-		this.configRegions.getConfigurationSection(regionId).set(key, obj);
-		return true;
+	public void setValue(@NonNull String regionId, @NonNull String key, Object obj) {
+		Objects.requireNonNull(this.configRegions.getConfigurationSection(regionId)).set(key, obj);
 	}
 
 	public Object getValue(@NonNull String regionId, @NonNull String key) {
-		return this.configRegions.getConfigurationSection(regionId).get(key);
+		return Objects.requireNonNull(this.configRegions.getConfigurationSection(regionId)).get(key);
 	}
 
 	public void createRegion(@NonNull String regionId) {
@@ -187,7 +186,7 @@ public class RegionMap {
 	}
 
 	public boolean inRegion(@NonNull Location loc, @NonNull String regionId) {
-		return this.inRegion(loc.getWorld().getName(), loc.getBlockX(), loc.getBlockZ(), regionId);
+		return this.inRegion(Objects.requireNonNull(loc.getWorld()).getName(), loc.getBlockX(), loc.getBlockZ(), regionId);
 	}
 
 	public String getRegion(int x, int z) {
@@ -241,7 +240,7 @@ public class RegionMap {
 	}
 
 	public void addToRegion(@NonNull Location loc, @NonNull String regionId) {
-		this.addToRegion(loc.getWorld().getName(), loc.getBlockX(), loc.getBlockZ(), regionId);
+		this.addToRegion(Objects.requireNonNull(loc.getWorld()).getName(), loc.getBlockX(), loc.getBlockZ(), regionId);
 	}
 
 	public void addCoverToRegion(int x, int z, @NonNull String regionId) {
@@ -279,6 +278,6 @@ public class RegionMap {
 	}
 
 	public void addCoverToRegion(@NonNull Location loc, @NonNull String regionId) {
-		this.addCoverToRegion(loc.getWorld().getName(), loc.getBlockX(), loc.getBlockZ(), regionId);
+		this.addCoverToRegion(Objects.requireNonNull(loc.getWorld()).getName(), loc.getBlockX(), loc.getBlockZ(), regionId);
 	}
 }
