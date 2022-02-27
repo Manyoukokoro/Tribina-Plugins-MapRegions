@@ -1,15 +1,12 @@
-package net.tarcadia.tribina.plugin.util;
+package net.tarcadia.tribina.plugins.util;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.Set;
 import java.util.HashSet;
-import net.tarcadia.tribina.plugin.util.Pair;
 import java.nio.file.Path;
-import java.util.Comparator;
 
 public class RegionMapUtilTest {
 	@TempDir

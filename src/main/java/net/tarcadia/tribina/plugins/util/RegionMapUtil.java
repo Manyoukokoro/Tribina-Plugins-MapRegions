@@ -1,14 +1,11 @@
-package net.tarcadia.tribina.plugin.util;
+package net.tarcadia.tribina.plugins.util;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 
 import java.util.Set;
 import java.util.HashSet;
-import net.tarcadia.tribina.plugin.util.Pair;
 import java.io.File;
-
-import java.util.Comparator;
 
 import java.io.IOException;
 
