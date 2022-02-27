@@ -8,7 +8,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -35,7 +34,7 @@ public class RegionMap {
 		this.regionMap = new HashMap<>();
 		try {
 			this.load();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			Main.logger.log(
 					Level.SEVERE,
 					"Cannot load region map at " +
@@ -46,12 +45,12 @@ public class RegionMap {
 		}
 	}
 
-	public void load() throws IOException {
+	public void load() throws Exception {
 		this.loadConfigs();
 		this.loadAllMaps();
 	}
 
-	public void loadConfigs() throws IOException {
+	public void loadConfigs() throws Exception {
 		this.config = YamlConfiguration.loadConfiguration(this.fileConfig);
 		this.configRegions = Objects.requireNonNullElseGet(
 				this.config.getConfigurationSection("regions"),
@@ -69,21 +68,21 @@ public class RegionMap {
 			this.x_length = 0;
 			this.z_offset = 0;
 			this.z_length = 0;
-			throw new IOException("Load config file failed.", e);
+			throw new Exception("Load config file failed.", e);
 		}
 	}
 
-	public void loadMap(@NonNull String regionId) throws IOException {
+	public void loadMap(@NonNull String regionId) throws Exception {
 		try {
 			File fileImage = new File(this.pathMaps + "/" + regionId + ".bmp");
 			var posSet = RegionMapUtil.loadRegionFromFile(fileImage);
 			this.addToRegion(posSet, regionId);
 		} catch (Exception e) {
-			throw new IOException("Load map file failed.", e);
+			throw new Exception("Load map file failed.", e);
 		}
 	}
 
-	public void loadAllMaps() throws IOException {
+	public void loadAllMaps() throws Exception {
 		List<Exception> es = new LinkedList<>();
 		for (String regionId : this.configRegions.getKeys(false)) {
 			try {
@@ -93,16 +92,16 @@ public class RegionMap {
 			}
 		}
 		if (!es.isEmpty()) {
-			throw new IOException("Load map files failed.", es.get(0));
+			throw new Exception("Load map files failed.", es.get(0));
 		}
 	}
 
-	public void save() throws IOException {
+	public void save() throws Exception {
 		this.saveConfigs();
 		this.saveAllMaps();
 	}
 
-	public void saveConfigs() throws IOException {
+	public void saveConfigs() throws Exception {
 		try {
 			this.config.set("world", this.world);
 			this.config.set("x_offset", this.x_offset);
@@ -111,11 +110,11 @@ public class RegionMap {
 			this.config.set("z_length", this.z_length);
 			this.config.save(this.fileConfig);
 		} catch (Exception e) {
-			throw new IOException("Save config file failed.", e);
+			throw new Exception("Save config file failed.", e);
 		}
 	}
 
-	public void saveMap(@NonNull String regionId) throws IOException {
+	public void saveMap(@NonNull String regionId) throws Exception {
 		Set<Pair<Integer, Integer>> posSet = new HashSet<>();
 
 		for (var e : this.regionMap.entrySet()) {
@@ -127,11 +126,11 @@ public class RegionMap {
 			File fileImage = new File(this.pathMaps + "/" + regionId + ".bmp");
 			RegionMapUtil.saveRegionToFile(posSet, fileImage);
 		} catch (Exception e) {
-			throw new IOException("Save map file failed.", e);
+			throw new Exception("Save map file failed.", e);
 		}
 	}
 
-	public void saveAllMaps() throws IOException {
+	public void saveAllMaps() throws Exception {
 		List<Exception> es = new LinkedList<>();
 
 		Map<String, Set<Pair<Integer, Integer>>> posSets = new HashMap<>();
@@ -151,7 +150,7 @@ public class RegionMap {
 			}
 		}
 		if (!es.isEmpty()) {
-			throw new IOException("Save map files failed.", es.get(1));
+			throw new Exception("Save map files failed.", es.get(1));
 		}
 	}
 
