@@ -26,10 +26,7 @@ public class RegionMaps {
         this.mapsList = this.config.getStringList("maps");
         this.maps = new HashMap<>();
         for (String mapId : this.mapsList) {
-            this.maps.putIfAbsent(mapId, new RegionMap(
-                    this.pathRegionMaps + "/" + mapId + ".yml",
-                    this.pathRegionMaps + "/" + mapId
-            ));
+            this.loadMap(mapId);
         }
     }
 
@@ -43,11 +40,15 @@ public class RegionMaps {
         this.mapsList = this.config.getStringList("maps");
         this.maps = new HashMap<>();
         for (String mapId : this.mapsList) {
-            this.maps.putIfAbsent(mapId, new RegionMap(
-                    this.pathRegionMaps + "/" + mapId + ".yml",
-                    this.pathRegionMaps + "/" + mapId
-            ));
+            this.loadMap(mapId);
         }
+    }
+
+    public void loadMap(String mapId) {
+        this.maps.putIfAbsent(mapId, new RegionMap(
+                this.pathRegionMaps + "/" + mapId + ".yml",
+                this.pathRegionMaps + "/" + mapId
+        ));
     }
 
     public void save() {
