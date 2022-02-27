@@ -30,8 +30,8 @@ public class RegionMapUtil {
 		int width = 0;
 		int height = 0;
 		for (var pair : region) {
-			int x = pair.getX();
-			int y = pair.getY();
+			int x = pair.x();
+			int y = pair.y();
 			if (x < 0 || y < 0) {
 				throw new IllegalArgumentException("Invalid pos found: " + pair);
 			}
@@ -44,7 +44,7 @@ public class RegionMapUtil {
 		}
 		var image = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_BINARY);
 		for (var pair : region) {
-			image.setRGB(pair.getX(), pair.getY(), RegionMapUtil.IN_REGION);
+			image.setRGB(pair.x(), pair.y(), RegionMapUtil.IN_REGION);
 		}
 		if (!ImageIO.write(image, "BMP", file)) {
 			throw new Exception("No appropriate writer is found");
