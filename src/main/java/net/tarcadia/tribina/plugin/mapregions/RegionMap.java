@@ -33,7 +33,7 @@ public class RegionMap {
 		this.pathConfig = pathConfig;
 		this.pathMaps = pathMaps;
 		this.fileConfig = new File(this.pathConfig);
-		this.regionMap = new TreeMap<>(Comparator.comparingInt((Pair<Integer, Integer> pos) -> pos.x()).thenComparingInt(Pair::y));
+		this.regionMap = new HashMap<>();
 		try {
 			this.load();
 		} catch (IOException e) {
@@ -117,7 +117,7 @@ public class RegionMap {
 	}
 
 	public void saveMap(@NonNull String regionId) throws IOException {
-		Set<Pair<Integer, Integer>> posSet = new TreeSet<>(Comparator.comparingInt((Pair<Integer, Integer> pos) -> pos.x()).thenComparingInt(Pair::y));
+		Set<Pair<Integer, Integer>> posSet = new HashSet<>();
 
 		for (var e : this.regionMap.entrySet()) {
 			if (regionId.equals(e.getValue())) {
@@ -137,7 +137,7 @@ public class RegionMap {
 		Map<String, Set<Pair<Integer, Integer>>> posSets = new HashMap<>();
 		for (var e : this.regionMap.entrySet()) {
 			var regionId = e.getValue();
-			var posSet = posSets.computeIfAbsent(regionId, k -> new TreeSet<>(Comparator.comparingInt((Pair<Integer, Integer> pos3) -> pos3.x()).thenComparingInt(Pair::y)));
+			var posSet = posSets.computeIfAbsent(regionId, k -> new HashSet<>());
 			posSet.add(e.getKey());
 		}
 
@@ -179,7 +179,7 @@ public class RegionMap {
 	}
 
 	public boolean inRegion(@NonNull Pair<Integer, Integer> pos, @NonNull String regionId) {
-		return this.inRegion(pos.x(), pos.y(), regionId);
+		return this.inRegion(pos.getX(), pos.getY(), regionId);
 	}
 
 	public boolean inRegion(@NonNull Location loc, @NonNull String regionId) {
@@ -195,7 +195,7 @@ public class RegionMap {
 	}
 
 	public String getRegion(@NonNull Pair<Integer, Integer> pos) {
-		return this.getRegion(pos.x(), pos.y());
+		return this.getRegion(pos.getX(), pos.getY());
 	}
 
 	public String getRegion(@NonNull Location loc) {
@@ -217,16 +217,16 @@ public class RegionMap {
 	}
 
 	public void addToRegion(@NonNull Pair<Integer, Integer> pos, @NonNull String regionId) {
-		this.addToRegion(pos.x(), pos.y(), regionId);
+		this.addToRegion(pos.getX(), pos.getY(), regionId);
 	}
 
 	public void addToRegion(@NonNull UUID world, @NonNull Pair<Integer, Integer> pos, @NonNull String regionId) {
-		this.addToRegion(world, pos.x(), pos.y(), regionId);
+		this.addToRegion(world, pos.getX(), pos.getY(), regionId);
 	}
 
 	public void addToRegion(@NonNull Collection<Pair<Integer, Integer>> posSet, @NonNull String regionId) {
 		for (var pos : posSet) {
-			this.addToRegion(pos.x(), pos.y(), regionId);
+			this.addToRegion(pos.getX(), pos.getY(), regionId);
 		}
 	}
 
@@ -255,16 +255,16 @@ public class RegionMap {
 	}
 
 	public void addCoverToRegion(@NonNull Pair<Integer, Integer> pos, @NonNull String regionId) {
-		this.addCoverToRegion(pos.x(), pos.y(), regionId);
+		this.addCoverToRegion(pos.getX(), pos.getY(), regionId);
 	}
 
 	public void addCoverToRegion(@NonNull UUID world, @NonNull Pair<Integer, Integer> pos, @NonNull String regionId) {
-		this.addCoverToRegion(world, pos.x(), pos.y(), regionId);
+		this.addCoverToRegion(world, pos.getX(), pos.getY(), regionId);
 	}
 
 	public void addCoverToRegion(@NonNull Collection<Pair<Integer, Integer>> posSet, @NonNull String regionId) {
 		for (var pos : posSet) {
-			this.addCoverToRegion(pos.x(), pos.y(), regionId);
+			this.addCoverToRegion(pos.getX(), pos.getY(), regionId);
 		}
 	}
 
