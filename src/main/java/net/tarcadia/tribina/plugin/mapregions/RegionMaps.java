@@ -50,8 +50,7 @@ public class RegionMaps {
         }
     }
 
-    public void saveMaps() throws IOException {
-        List<Exception> es = new LinkedList<>();
+    public void save() {
         for (String mapId : this.mapsList) {
             try {
                 this.maps.get(mapId).save();
