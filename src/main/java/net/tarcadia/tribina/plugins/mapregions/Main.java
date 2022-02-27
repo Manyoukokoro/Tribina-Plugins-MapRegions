@@ -1,9 +1,13 @@
 package net.tarcadia.tribina.plugins.mapregions;
 
+import net.tarcadia.tribina.plugins.mapregions.command.BaseCommand;
+import net.tarcadia.tribina.plugins.mapregions.command.CommandReloadConfigs;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Logger;
 
 public final class Main extends JavaPlugin {
@@ -15,6 +19,7 @@ public final class Main extends JavaPlugin {
 	public static String dataPath = null;
 
 	private RegionMaps regionMaps;
+	private List<BaseCommand> commands;
 
 	@Override
 	public void onLoad() {
@@ -29,6 +34,9 @@ public final class Main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		this.regionMaps = new RegionMaps(Main.config, Main.dataPath);
+		this.commands = new LinkedList<>();
+		this.commands.add(new CommandReloadConfigs("tribina mr reload configs"));
+		this.commands.add(new CommandReloadConfigs("tribina mr reload map"));
 		Main.logger.info("Enabled " + Main.descrp.getName() + " v" + Main.descrp.getVersion());
 	}
 
