@@ -34,6 +34,7 @@ public final class Main extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
+		this.saveDefaultConfig();
 		this.regionMaps.save();
 		Main.logger.info("Disabled " + Main.descrp.getName() + " v" + Main.descrp.getVersion());
 	}
