@@ -102,19 +102,19 @@ public class RegionMap {
 	}
 
 	public void saveConfigs() throws Exception {
-		try {
-			if (Main.plugin.getServer().getWorld(this.world) != null) {
+		if (this.world != null && Main.plugin.getServer().getWorld(this.world) != null) {
+			try {
 				this.config.set("world", this.world);
-			} else {
-				this.config.set("world", "");
+				this.config.set("x_offset", this.x_offset);
+				this.config.set("z_offset", this.z_offset);
+				this.config.set("x_length", this.x_length);
+				this.config.set("z_length", this.z_length);
+				this.config.save(this.fileConfig);
+			} catch (Exception e) {
+				throw new Exception("Save config file failed.", e);
 			}
-			this.config.set("x_offset", this.x_offset);
-			this.config.set("z_offset", this.z_offset);
-			this.config.set("x_length", this.x_length);
-			this.config.set("z_length", this.z_length);
-			this.config.save(this.fileConfig);
-		} catch (Exception e) {
-			throw new Exception("Save config file failed.", e);
+		} else {
+			throw new Exception("Save config invalid.");
 		}
 	}
 
