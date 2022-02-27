@@ -10,11 +10,11 @@ import java.util.logging.Level;
 
 public class RegionMaps {
 
-    private String pathRegionMaps;
-    private ConfigurationSection config;
-    private ConfigurationSection configGlobal;
-    private List<String> mapsList;
-    private Map<String, RegionMap> maps;
+    private final String pathRegionMaps;
+    private final ConfigurationSection config;
+    private final ConfigurationSection configGlobal;
+    private final List<String> mapsList;
+    private final Map<String, RegionMap> maps;
 
     public RegionMaps(@NonNull ConfigurationSection config, @NonNull String pathRegionMaps) {
         this.pathRegionMaps = pathRegionMaps;
