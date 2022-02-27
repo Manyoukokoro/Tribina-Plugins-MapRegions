@@ -66,8 +66,7 @@ public class RegionMaps {
     }
 
     public List<String> getMapList() {
-        List<String> mapList = List.copyOf(this.mapsList);
-        return mapList;
+        return List.copyOf(this.mapsList);
     }
 
     public boolean inMapList(String mapId) {
