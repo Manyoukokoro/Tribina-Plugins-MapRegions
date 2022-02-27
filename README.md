@@ -1,2 +1,2 @@
 # Tribina-MapRegions
-Tribina Plugin for map region managment.
+Tribina Plugin for map region management.

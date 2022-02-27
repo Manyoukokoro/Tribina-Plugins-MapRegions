@@ -1,4 +1,4 @@
-package net.tarcadia.tribina.plugin.mapregions;
+package net.tarcadia.tribina.plugins.mapregions;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -34,6 +34,7 @@ public final class Main extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
+		this.saveDefaultConfig();
 		this.regionMaps.save();
 		Main.logger.info("Disabled " + Main.descrp.getName() + " v" + Main.descrp.getVersion());
 	}
