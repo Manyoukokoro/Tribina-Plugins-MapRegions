@@ -16,7 +16,7 @@ public class RegionMaps {
     private List<String> mapsList;
     private Map<String, RegionMap> maps;
 
-    public void RegionMap(@NonNull ConfigurationSection config, @NonNull String pathRegionMaps){
+    public RegionMaps(@NonNull ConfigurationSection config, @NonNull String pathRegionMaps) {
         this.pathRegionMaps = pathRegionMaps;
         this.config = config;
         this.configGlobal = Objects.requireNonNullElseGet(
@@ -33,7 +33,7 @@ public class RegionMaps {
         }
     }
 
-    public void RegionMap(@NonNull String pathConfig, @NonNull String pathRegionMaps){
+    public RegionMaps(@NonNull String pathConfig, @NonNull String pathRegionMaps) {
         this.pathRegionMaps = pathRegionMaps;
         this.config = YamlConfiguration.loadConfiguration(new File(pathConfig));
         this.configGlobal = Objects.requireNonNullElseGet(
