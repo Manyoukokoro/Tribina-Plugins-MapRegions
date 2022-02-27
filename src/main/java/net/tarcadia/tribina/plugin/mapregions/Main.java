@@ -23,15 +23,18 @@ public final class Main extends JavaPlugin {
 		Main.descrp = this.getDescription();
 		Main.logger = this.getLogger();
 		Main.dataPath = this.getDataFolder().getPath();
+		Main.logger.info("Loaded " + Main.descrp.getName() + " v" + Main.descrp.getVersion());
 	}
 
 	@Override
 	public void onEnable() {
 		this.regionMaps = new RegionMaps(Main.config, Main.dataPath);
+		Main.logger.info("Enabled " + Main.descrp.getName() + " v" + Main.descrp.getVersion());
 	}
 
 	@Override
 	public void onDisable() {
 		this.regionMaps.save();
+		Main.logger.info("Disabled " + Main.descrp.getName() + " v" + Main.descrp.getVersion());
 	}
 }
