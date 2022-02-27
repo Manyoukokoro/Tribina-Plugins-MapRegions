@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 
 public final class Main extends JavaPlugin {
 
-	public static JavaPlugin plugin = null;
+	public static Main plugin = null;
 	public static FileConfiguration config = null;
 	public static PluginDescriptionFile descrp = null;
 	public static Logger logger = null;
@@ -37,5 +37,21 @@ public final class Main extends JavaPlugin {
 		this.saveDefaultConfig();
 		this.regionMaps.save();
 		Main.logger.info("Disabled " + Main.descrp.getName() + " v" + Main.descrp.getVersion());
+	}
+
+	public void reloadConfigs() {
+		this.reloadConfig();
+		Main.config = this.getConfig();
+		this.regionMaps = new RegionMaps(Main.config, Main.dataPath);
+	}
+
+	public void reloadMap(String mapId) {
+		if (this.regionMaps.inMapList(mapId)) {
+			this.regionMaps.loadMap(mapId);
+		}
+	}
+
+	public List<String> getMapList() {
+		return this.regionMaps.getMapList();
 	}
 }
