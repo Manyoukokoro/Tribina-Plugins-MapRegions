@@ -25,12 +25,12 @@ commands:
     permission-message: Access denied.
   tribina mr reload map:
     description: Reload all configs of a map.
-    usage: tribina mr reload map <mapId>
+    usage: tribina mr reload map <mapId> [, <mapId>, ...]
     permission: tribina.mapregions.reload.map
     permission-message: Access denied.
   tribina mr reload region:
     description: Reload all configs of a region.
-    usage: tribina mr reload region <mapId> <regionId>
+    usage: tribina mr reload region <mapId> <regionId> [, <regionId>, ...]
     permission: tribina.mapregions.reload.region
     permission-message: Access denied.
 permissions:
