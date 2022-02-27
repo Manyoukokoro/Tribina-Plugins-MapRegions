@@ -5,8 +5,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
 
 public class RegionMaps {
 
@@ -56,11 +56,12 @@ public class RegionMaps {
             try {
                 this.maps.get(mapId).save();
             } catch (Exception e) {
-                es.add(e);
+                Main.logger.log(
+                        Level.SEVERE,
+                        "Cannot save region map " + mapId,
+                        e
+                );
             }
-        }
-        if (!es.isEmpty()) {
-            throw new IOException("Save region maps failed.", es.get(0));
         }
     }
 
