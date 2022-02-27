@@ -179,7 +179,7 @@ public class RegionMap {
 	}
 
 	public boolean inRegion(@NonNull Pair<Integer, Integer> pos, @NonNull String regionId) {
-		return this.inRegion(pos.getX(), pos.getY(), regionId);
+		return this.inRegion(pos.x(), pos.y(), regionId);
 	}
 
 	public boolean inRegion(@NonNull Location loc, @NonNull String regionId) {
@@ -195,7 +195,7 @@ public class RegionMap {
 	}
 
 	public String getRegion(@NonNull Pair<Integer, Integer> pos) {
-		return this.getRegion(pos.getX(), pos.getY());
+		return this.getRegion(pos.x(), pos.y());
 	}
 
 	public String getRegion(@NonNull Location loc) {
@@ -217,16 +217,16 @@ public class RegionMap {
 	}
 
 	public void addToRegion(@NonNull Pair<Integer, Integer> pos, @NonNull String regionId) {
-		this.addToRegion(pos.getX(), pos.getY(), regionId);
+		this.addToRegion(pos.x(), pos.y(), regionId);
 	}
 
 	public void addToRegion(@NonNull UUID world, @NonNull Pair<Integer, Integer> pos, @NonNull String regionId) {
-		this.addToRegion(world, pos.getX(), pos.getY(), regionId);
+		this.addToRegion(world, pos.x(), pos.y(), regionId);
 	}
 
 	public void addToRegion(@NonNull Collection<Pair<Integer, Integer>> posSet, @NonNull String regionId) {
 		for (var pos : posSet) {
-			this.addToRegion(pos.getX(), pos.getY(), regionId);
+			this.addToRegion(pos.x(), pos.y(), regionId);
 		}
 	}
 
@@ -255,16 +255,16 @@ public class RegionMap {
 	}
 
 	public void addCoverToRegion(@NonNull Pair<Integer, Integer> pos, @NonNull String regionId) {
-		this.addCoverToRegion(pos.getX(), pos.getY(), regionId);
+		this.addCoverToRegion(pos.x(), pos.y(), regionId);
 	}
 
 	public void addCoverToRegion(@NonNull UUID world, @NonNull Pair<Integer, Integer> pos, @NonNull String regionId) {
-		this.addCoverToRegion(world, pos.getX(), pos.getY(), regionId);
+		this.addCoverToRegion(world, pos.x(), pos.y(), regionId);
 	}
 
 	public void addCoverToRegion(@NonNull Collection<Pair<Integer, Integer>> posSet, @NonNull String regionId) {
 		for (var pos : posSet) {
-			this.addCoverToRegion(pos.getX(), pos.getY(), regionId);
+			this.addCoverToRegion(pos.x(), pos.y(), regionId);
 		}
 	}
 
