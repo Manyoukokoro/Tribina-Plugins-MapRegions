@@ -1,13 +1,12 @@
 package net.tarcadia.tribina.plugin.mapregions;
 
 import net.tarcadia.tribina.plugin.util.Pair;
+import net.tarcadia.tribina.plugin.util.RegionMapUtil;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -76,9 +75,9 @@ public class RegionMap {
 
 	public void loadMap(@NonNull String regionId) throws IOException {
 		try {
-			File fileMap = new File(this.pathMaps + "/" + regionId + ".bmp");
-			BufferedImage image = ImageIO.read(fileMap);
-			// TODO: load from a Bitmap file to this.regionMap
+			File fileImage = new File(this.pathMaps + "/" + regionId + ".bmp");
+			var posSet = RegionMapUtil.loadRegionFromFile(fileImage);
+			this.addToRegion(posSet, regionId);
 		} catch (Exception e) {
 			throw new IOException("Load map file failed.", e);
 		}
@@ -125,7 +124,8 @@ public class RegionMap {
 			}
 		}
 		try {
-			// TODO: save posSet into a Bitmap file
+			File fileImage = new File(this.pathMaps + "/" + regionId + ".bmp");
+			RegionMapUtil.saveRegionToFile(posSet, fileImage);
 		} catch (Exception e) {
 			throw new IOException("Save map file failed.", e);
 		}
@@ -144,7 +144,8 @@ public class RegionMap {
 		for (String regionId : this.configRegions.getKeys(false)) {
 			var posSet = posSets.get(regionId);
 			try {
-				// TODO: save posSet into a Bitmap file
+				File fileImage = new File(this.pathMaps + "/" + regionId + ".bmp");
+				RegionMapUtil.saveRegionToFile(posSet, fileImage);
 			} catch (Exception e) {
 				es.add(e);
 			}
