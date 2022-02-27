@@ -5,8 +5,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
 
 public class RegionMaps {
 
@@ -16,7 +16,7 @@ public class RegionMaps {
     private List<String> mapsList;
     private Map<String, RegionMap> maps;
 
-    public void RegionMap(@NonNull ConfigurationSection config, @NonNull String pathRegionMaps){
+    public RegionMaps(@NonNull ConfigurationSection config, @NonNull String pathRegionMaps) {
         this.pathRegionMaps = pathRegionMaps;
         this.config = config;
         this.configGlobal = Objects.requireNonNullElseGet(
@@ -33,7 +33,7 @@ public class RegionMaps {
         }
     }
 
-    public void RegionMap(@NonNull String pathConfig, @NonNull String pathRegionMaps){
+    public RegionMaps(@NonNull String pathConfig, @NonNull String pathRegionMaps) {
         this.pathRegionMaps = pathRegionMaps;
         this.config = YamlConfiguration.loadConfiguration(new File(pathConfig));
         this.configGlobal = Objects.requireNonNullElseGet(
@@ -50,17 +50,17 @@ public class RegionMaps {
         }
     }
 
-    public void saveMaps() throws IOException {
-        List<Exception> es = new LinkedList<>();
+    public void save() {
         for (String mapId : this.mapsList) {
             try {
                 this.maps.get(mapId).save();
             } catch (Exception e) {
-                es.add(e);
+                Main.logger.log(
+                        Level.SEVERE,
+                        "Cannot save region map " + mapId,
+                        e
+                );
             }
-        }
-        if (!es.isEmpty()) {
-            throw new IOException("Save region maps failed.", es.get(0));
         }
     }
 

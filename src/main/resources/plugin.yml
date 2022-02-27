@@ -1,4 +1,4 @@
-name: MapRegions
+name: TribinaMapRegions
 version: '${project.version}'
 main: net.tarcadia.tribina.plugins.mapregions.Main
 api-version: 1.18
