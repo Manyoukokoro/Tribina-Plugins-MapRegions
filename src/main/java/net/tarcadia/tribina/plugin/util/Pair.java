@@ -1,13 +1,12 @@
 package net.tarcadia.tribina.plugin.util;
 
-public record Pair<X, Y>(X x, Y y){
+public record Pair<X, Y>(X x, Y y) implements Cloneable{
 
 	public String toString() {
 		return "(" + x + ", " + y + ")";
 	}
 
-	public Pair<X, Y> copy() {
-		return new Pair<>(this.x, this.y);
-	}
+	@Override
+	public Pair<X, Y> clone() { return new Pair<>(this.x(), this.y()); }
 
 }
