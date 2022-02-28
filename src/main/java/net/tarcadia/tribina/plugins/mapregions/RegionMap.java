@@ -173,6 +173,12 @@ public class RegionMap {
 		ConfigurationSection configSection = this.configRegions.createSection(regionId);
 	}
 
+	public boolean inRegionList(String regionId) { return this.configRegions.getKeys(false).contains(regionId); }
+
+	public List<String> getRegionList() {
+		return List.copyOf(this.configRegions.getKeys(false));
+	}
+
 	public boolean inRegion(int x, int z, @NonNull String regionId) {
 		return regionId.equals(this.regionMap.get(new Pair<>(x - this.x_offset, z - this.z_offset)));
 	}
