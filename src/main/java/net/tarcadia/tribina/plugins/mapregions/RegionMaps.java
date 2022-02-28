@@ -65,12 +65,24 @@ public class RegionMaps {
         }
     }
 
+    public boolean inMapList(String mapId) {
+        return this.mapsList.contains(mapId);
+    }
+
     public List<String> getMapList() {
         return List.copyOf(this.mapsList);
     }
 
-    public boolean inMapList(String mapId) {
-        return this.mapsList.contains(mapId);
+    public boolean inRegionList(String mapId, String regionId) {
+        return this.inMapList(mapId) && this.maps.get(mapId).inRegionList(regionId);
+    }
+
+    public List<String> getRegionList(String mapId) {
+        if (this.inMapList(mapId)) {
+            return List.copyOf(this.maps.get(mapId).getRegionList());
+        } else {
+            return new ArrayList<>();
+        }
     }
 
 }

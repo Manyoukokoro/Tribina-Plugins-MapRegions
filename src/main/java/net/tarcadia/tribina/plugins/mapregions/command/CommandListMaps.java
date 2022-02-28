@@ -7,15 +7,18 @@ import org.bukkit.command.TabExecutor;
 
 import java.util.List;
 
-public class CommandReloadConfigs extends BaseCommand implements TabExecutor {
-    public CommandReloadConfigs(String cmd) {
+public class CommandListMaps extends BaseCommand implements TabExecutor {
+    public CommandListMaps(String cmd) {
         super(cmd);
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        Main.plugin.reloadConfigs();
-        sender.sendMessage("Reloaded configs.");
+        sender.sendMessage("Loaded maps:");
+        for (String mapId : Main.plugin.getMapList())
+        {
+            sender.sendMessage("  - " + mapId);
+        }
         return true;
     }
 
