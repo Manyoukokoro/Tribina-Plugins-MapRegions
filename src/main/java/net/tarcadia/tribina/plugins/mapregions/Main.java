@@ -34,9 +34,11 @@ public final class Main extends JavaPlugin {
 	public void onEnable() {
 		this.regionMaps = new RegionMaps(Main.config, Main.dataPath);
 		this.commands = new LinkedList<>();
-		this.commands.add(new CommandReloadConfigs("tribina mr reload configs"));
-		this.commands.add(new CommandReloadMap("tribina mr reload map"));
-		Main.logger.info("Enabled " + Main.descrp.getName() + " v" + Main.descrp.getVersion());
+		this.commands.add(new CommandListMaps("tribina-mr-list-maps"));
+		this.commands.add(new CommandListRegions("tribina-mr-list-regions"));
+		this.commands.add(new CommandReloadConfigs("tribina-mr-reload-configs"));
+		this.commands.add(new CommandReloadMap("tribina-mr-reload-map"));
+		Main.logger.info("Enabled " + Main.descrp.getName() + " v" + Main.descrp.getVersion() + ".");
 	}
 
 	@Override
