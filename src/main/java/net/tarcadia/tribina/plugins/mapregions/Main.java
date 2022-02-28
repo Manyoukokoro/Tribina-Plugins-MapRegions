@@ -2,6 +2,7 @@ package net.tarcadia.tribina.plugins.mapregions;
 
 import net.tarcadia.tribina.plugins.mapregions.command.BaseCommand;
 import net.tarcadia.tribina.plugins.mapregions.command.CommandReloadConfigs;
+import net.tarcadia.tribina.plugins.mapregions.command.CommandReloadMap;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -36,7 +37,7 @@ public final class Main extends JavaPlugin {
 		this.regionMaps = new RegionMaps(Main.config, Main.dataPath);
 		this.commands = new LinkedList<>();
 		this.commands.add(new CommandReloadConfigs("tribina mr reload configs"));
-		this.commands.add(new CommandReloadConfigs("tribina mr reload map"));
+		this.commands.add(new CommandReloadMap("tribina mr reload map"));
 		Main.logger.info("Enabled " + Main.descrp.getName() + " v" + Main.descrp.getVersion());
 	}
 
