@@ -1,8 +1,6 @@
 package net.tarcadia.tribina.plugins.mapregions;
 
-import net.tarcadia.tribina.plugins.mapregions.command.BaseCommand;
-import net.tarcadia.tribina.plugins.mapregions.command.CommandReloadConfigs;
-import net.tarcadia.tribina.plugins.mapregions.command.CommandReloadMap;
+import net.tarcadia.tribina.plugins.mapregions.command.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
