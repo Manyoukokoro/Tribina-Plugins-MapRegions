@@ -23,10 +23,12 @@ public class RegionMaps {
                 config.getConfigurationSection("global"),
                 () -> this.config.createSection("global")
         );
+        Main.logger.info("Loaded global region.");
         this.mapsList = this.config.getStringList("maps");
         this.maps = new HashMap<>();
         for (String mapId : this.mapsList) {
             this.loadMap(mapId);
+            Main.logger.info("Loaded " + mapId + " region.");
         }
     }
 
@@ -37,15 +39,24 @@ public class RegionMaps {
                 config.getConfigurationSection("global"),
                 () -> config.createSection("global")
         );
+        Main.logger.info("Loaded global region.");
         this.mapsList = this.config.getStringList("maps");
         this.maps = new HashMap<>();
         for (String mapId : this.mapsList) {
             this.loadMap(mapId);
+            Main.logger.info("Loaded " + mapId + " region.");
         }
     }
 
     public void loadMap(String mapId) {
         this.maps.putIfAbsent(mapId, new RegionMap(
+                this.pathRegionMaps + "/" + mapId + ".yml",
+                this.pathRegionMaps + "/" + mapId
+        ));
+    }
+
+    public void reloadMap(String mapId) {
+        this.maps.put(mapId, new RegionMap(
                 this.pathRegionMaps + "/" + mapId + ".yml",
                 this.pathRegionMaps + "/" + mapId
         ));

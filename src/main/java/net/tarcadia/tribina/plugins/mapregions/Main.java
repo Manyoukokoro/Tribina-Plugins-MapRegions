@@ -57,7 +57,7 @@ public final class Main extends JavaPlugin {
 
 	public void reloadMap(String mapId) {
 		if (this.regionMaps.inMapList(mapId)) {
-			this.regionMaps.loadMap(mapId);
+			this.regionMaps.reloadMap(mapId);
 			Main.logger.info("Reloaded map " + mapId + ".");
 		} else {
 			Main.logger.info("Not found map " + mapId + ".");
