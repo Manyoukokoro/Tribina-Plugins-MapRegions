@@ -27,7 +27,7 @@ public final class Main extends JavaPlugin {
 		Main.descrp = this.getDescription();
 		Main.logger = this.getLogger();
 		Main.dataPath = this.getDataFolder().getPath();
-		Main.logger.info("Loaded " + Main.descrp.getName() + " v" + Main.descrp.getVersion());
+		Main.logger.info("Loaded " + Main.descrp.getName() + " v" + Main.descrp.getVersion() + ".");
 	}
 
 	@Override
@@ -43,18 +43,22 @@ public final class Main extends JavaPlugin {
 	public void onDisable() {
 		this.saveDefaultConfig();
 		this.regionMaps.save();
-		Main.logger.info("Disabled " + Main.descrp.getName() + " v" + Main.descrp.getVersion());
+		Main.logger.info("Disabled " + Main.descrp.getName() + " v" + Main.descrp.getVersion() + ".");
 	}
 
 	public void reloadConfigs() {
 		this.reloadConfig();
 		Main.config = this.getConfig();
 		this.regionMaps = new RegionMaps(Main.config, Main.dataPath);
+		Main.logger.info("Reloaded configs.");
 	}
 
 	public void reloadMap(String mapId) {
 		if (this.regionMaps.inMapList(mapId)) {
 			this.regionMaps.loadMap(mapId);
+			Main.logger.info("Reloaded map " + mapId + ".");
+		} else {
+			Main.logger.info("Not found map " + mapId + ".");
 		}
 	}
 
