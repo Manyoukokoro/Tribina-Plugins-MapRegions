@@ -15,7 +15,8 @@ public class CommandReloadConfigs extends BaseCommand implements TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Main.plugin.reloadConfigs();
-        return false;
+        sender.sendMessage("Reloaded configs.");
+        return true;
     }
 
     @Override
