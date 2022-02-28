@@ -63,4 +63,8 @@ public final class Main extends JavaPlugin {
 	public List<String> getMapList() {
 		return this.regionMaps.getMapList();
 	}
+
+	public List<String> getRegionList(String mapId) {
+		return this.regionMaps.getRegionList(mapId);
+	}
 }
