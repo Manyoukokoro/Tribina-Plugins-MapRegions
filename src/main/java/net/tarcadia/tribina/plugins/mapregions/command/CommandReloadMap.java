@@ -14,10 +14,15 @@ public class CommandReloadMap extends BaseCommand implements TabExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        for (var arg : args) {
-            Main.plugin.reloadMap(arg);
+        if (args.length < 1) {
+            return false;
+        } else {
+            for (var arg : args) {
+                Main.plugin.reloadMap(arg);
+            }
+            sender.sendMessage("Reloaded maps.");
+            return true;
         }
-        return true;
     }
 
     @Override
