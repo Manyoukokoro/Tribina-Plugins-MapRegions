@@ -12,8 +12,8 @@ public class TagTree<T> {
     private final TagTree<T> parent;
     private final TagTree<T> root;
 
-    private List<String> tags;
-    private Map<String, TagTree<T>> subTrees;
+    private final List<String> tags;
+    private final Map<String, TagTree<T>> subTrees;
     private T value;
 
     public TagTree() {
