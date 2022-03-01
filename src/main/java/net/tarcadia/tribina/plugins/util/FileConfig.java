@@ -1,5 +1,6 @@
 package net.tarcadia.tribina.plugins.util;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 
 public class FileConfig implements Configuration {
 
@@ -49,8 +51,8 @@ public class FileConfig implements Configuration {
     public void save(@NotNull File file) {
         try {
             this.configBuff.save(file);
-        } catch (IOException e) {
-//            e.printStackTrace();
+        } catch (IOException ex) {
+            Bukkit.getLogger().log(Level.SEVERE, "Cannot save " + file, ex);
         }
         this.timeFile = file.lastModified();
     }
