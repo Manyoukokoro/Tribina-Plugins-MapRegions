@@ -6,15 +6,15 @@ import java.util.*;
 
 public class TagTree<T> {
 
-    protected final String id;
-    protected final String path;
-    protected final int depth;
-    protected final TagTree<T> parent;
-    protected final TagTree<T> root;
+    private final String id;
+    private final String path;
+    private final int depth;
+    private final TagTree<T> parent;
+    private final TagTree<T> root;
 
-    protected List<String> tags;
-    protected Map<String, TagTree<T>> subTrees;
-    protected T value;
+    private final List<String> tags;
+    private final Map<String, TagTree<T>> subTrees;
+    private T value;
 
     public TagTree() {
         this.id = "root";
